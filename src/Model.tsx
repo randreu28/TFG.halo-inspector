@@ -10,6 +10,7 @@ import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import { ThreeEvent } from "@react-three/fiber";
 
 interface Animations extends THREE.AnimationClip {
   name: "Take 001";
@@ -51,8 +52,33 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     actions["Take 001"]?.play();
   }, []);
 
+  for (let _mat in materials) {
+    let mat = materials[_mat as keyof typeof materials];
+    mat.transparent = true;
+  }
+
+  function handleClick(e: ThreeEvent<MouseEvent>) {
+    let matName: keyof typeof materials | undefined;
+
+    if (e.object instanceof THREE.Mesh) {
+      matName = e.object.material.name;
+    }
+
+    group.current.traverse((child) => {
+      if (
+        child instanceof THREE.Mesh &&
+        child.material.name == matName &&
+        matName
+      ) {
+        console.log("I'm selecting this: ", child.material.name);
+
+        child.material.opacity = 0.1;
+      }
+    });
+  }
+
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group onClick={handleClick} ref={group} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
         <group
           name="Sketchfab_model"
