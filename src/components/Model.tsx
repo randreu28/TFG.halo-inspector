@@ -48,16 +48,21 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials, animations } = useGLTF("/halo.glb") as GLTFResult;
   const { actions } = useAnimations<Animations>(animations as any, group);
 
+  /* Plays animation */
   useEffect(() => {
     actions["Take 001"]?.play();
   }, []);
 
+  /* Makes the materials transparent, so we can play with it's opacity later */
   for (let _mat in materials) {
     let mat = materials[_mat as keyof typeof materials];
     mat.transparent = true;
   }
   materials.lambert2.opacity = 0;
 
+  /**
+   * Reduces the opacity of every material except the one clicked
+   */
   function handleClick(e: ThreeEvent<MouseEvent>) {
     e.stopPropagation();
     let matName: keyof typeof materials | undefined;
