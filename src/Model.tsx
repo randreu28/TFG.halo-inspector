@@ -56,6 +56,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     let mat = materials[_mat as keyof typeof materials];
     mat.transparent = true;
   }
+  materials.lambert2.opacity = 0;
 
   function handleClick(e: ThreeEvent<MouseEvent>) {
     let matName: keyof typeof materials | undefined;
