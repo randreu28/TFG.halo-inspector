@@ -59,6 +59,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   materials.lambert2.opacity = 0;
 
   function handleClick(e: ThreeEvent<MouseEvent>) {
+    e.stopPropagation();
     let matName: keyof typeof materials | undefined;
 
     if (e.object instanceof THREE.Mesh) {
@@ -66,14 +67,9 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     }
 
     group.current.traverse((child) => {
-      if (
-        child instanceof THREE.Mesh &&
-        child.material.name == matName &&
-        matName
-      ) {
-        console.log("I'm selecting this: ", child.material.name);
-
+      if (child instanceof THREE.Mesh && matName) {
         child.material.opacity = 0.1;
+        child.material.name === matName && (child.material.opacity = 1);
       }
     });
   }
