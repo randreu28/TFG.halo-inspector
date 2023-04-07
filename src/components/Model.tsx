@@ -7,10 +7,11 @@ title: Spartan Armour MKV - Halo Reach
 */
 
 import * as THREE from "three";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { ThreeEvent } from "@react-three/fiber";
+import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { useSpring } from "@react-spring/web";
 
 interface Animations extends THREE.AnimationClip {
   name: "Take 001";
@@ -60,6 +61,49 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   }
   materials.lambert2.opacity = 0;
 
+  /* Creates an animation interpolation */
+  const [selectedMat, setSelectedMat] = useState({
+    lambert2: true,
+    lambert1: true,
+    Spartan_Ear_Mat: true,
+    Spartan_Shoulders_Mat: true,
+    Spartan_Helmet_Mat: true,
+    Spartan_Legs_Mat: true,
+    Spartan_Undersuit_Mat: true,
+    Spartan_Arms_Mat: true,
+    Spartan_Chest_Mat: true,
+  });
+
+  const springs = useSpring({
+    lambert2: selectedMat.lambert2 ? 1 : 0.1,
+    lambert1: selectedMat.lambert1 ? 1 : 0.1,
+    Spartan_Ear_Mat: selectedMat.Spartan_Ear_Mat ? 1 : 0.1,
+    Spartan_Shoulders_Mat: selectedMat.Spartan_Shoulders_Mat ? 1 : 0.1,
+    Spartan_Helmet_Mat: selectedMat.Spartan_Helmet_Mat ? 1 : 0.1,
+    Spartan_Legs_Mat: selectedMat.Spartan_Legs_Mat ? 1 : 0.1,
+    Spartan_Undersuit_Mat: selectedMat.Spartan_Undersuit_Mat ? 1 : 0.1,
+    Spartan_Arms_Mat: selectedMat.Spartan_Arms_Mat ? 1 : 0.1,
+    Spartan_Chest_Mat: selectedMat.Spartan_Chest_Mat ? 1 : 0.1,
+
+    config: { duration: 200 },
+  });
+
+  useFrame(() => {
+    materials.Spartan_Helmet_Mat.opacity = springs.Spartan_Helmet_Mat.get();
+    materials.Spartan_Chest_Mat.opacity = springs.Spartan_Chest_Mat.get();
+    materials.lambert2.opacity = springs.lambert2.get();
+    materials.lambert1.opacity = springs.lambert1.get();
+    materials.Spartan_Ear_Mat.opacity = springs.Spartan_Ear_Mat.get();
+    materials.Spartan_Shoulders_Mat.opacity =
+      springs.Spartan_Shoulders_Mat.get();
+    materials.Spartan_Helmet_Mat.opacity = springs.Spartan_Helmet_Mat.get();
+    materials.Spartan_Legs_Mat.opacity = springs.Spartan_Legs_Mat.get();
+    materials.Spartan_Undersuit_Mat.opacity =
+      springs.Spartan_Undersuit_Mat.get();
+    materials.Spartan_Arms_Mat.opacity = springs.Spartan_Arms_Mat.get();
+    materials.Spartan_Chest_Mat.opacity = springs.Spartan_Chest_Mat.get();
+  });
+
   /**
    * Reduces the opacity of every material except the one clicked
    */
@@ -71,16 +115,43 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       matName = e.object.material.name;
     }
 
-    group.current.traverse((child) => {
-      if (child instanceof THREE.Mesh && matName) {
-        child.material.opacity = 0.1;
-        child.material.name === matName && (child.material.opacity = 1);
-      }
-    });
+    let newMat = {
+      lambert2: false,
+      lambert1: false,
+      Spartan_Ear_Mat: false,
+      Spartan_Shoulders_Mat: false,
+      Spartan_Helmet_Mat: false,
+      Spartan_Legs_Mat: false,
+      Spartan_Undersuit_Mat: false,
+      Spartan_Arms_Mat: false,
+      Spartan_Chest_Mat: false,
+    };
+
+    newMat[matName!] = true;
+
+    setSelectedMat(newMat);
   }
 
   return (
-    <group onClick={handleClick} ref={group} {...props} dispose={null}>
+    <group
+      onClick={handleClick}
+      onPointerMissed={() =>
+        setSelectedMat({
+          lambert2: true,
+          lambert1: true,
+          Spartan_Ear_Mat: true,
+          Spartan_Shoulders_Mat: true,
+          Spartan_Helmet_Mat: true,
+          Spartan_Legs_Mat: true,
+          Spartan_Undersuit_Mat: true,
+          Spartan_Arms_Mat: true,
+          Spartan_Chest_Mat: true,
+        })
+      }
+      ref={group}
+      {...props}
+      dispose={null}
+    >
       <group name="Sketchfab_Scene">
         <group
           name="Sketchfab_model"
