@@ -9,40 +9,10 @@ title: Spartan Armour MKV - Halo Reach
 import * as THREE from "three";
 import { useEffect, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
-import { GLTF } from "three-stdlib";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { useSpring } from "@react-spring/web";
-
-interface Animations extends THREE.AnimationClip {
-  name: "Take 001";
-}
-
-type GLTFResult = GLTF & {
-  nodes: {
-    Floor_lambert2_0: THREE.Mesh;
-    Object_18: THREE.SkinnedMesh;
-    Object_10: THREE.SkinnedMesh;
-    Object_13: THREE.SkinnedMesh;
-    Object_17: THREE.SkinnedMesh;
-    Object_12: THREE.SkinnedMesh;
-    Object_16: THREE.SkinnedMesh;
-    Object_20: THREE.SkinnedMesh;
-    Object_15: THREE.SkinnedMesh;
-    Object_14: THREE.SkinnedMesh;
-    _rootJoint: THREE.Bone;
-  };
-  materials: {
-    lambert2: THREE.MeshStandardMaterial;
-    lambert1: THREE.MeshStandardMaterial;
-    Spartan_Ear_Mat: THREE.MeshStandardMaterial;
-    Spartan_Shoulders_Mat: THREE.MeshStandardMaterial;
-    Spartan_Helmet_Mat: THREE.MeshStandardMaterial;
-    Spartan_Legs_Mat: THREE.MeshStandardMaterial;
-    Spartan_Undersuit_Mat: THREE.MeshStandardMaterial;
-    Spartan_Arms_Mat: THREE.MeshStandardMaterial;
-    Spartan_Chest_Mat: THREE.MeshStandardMaterial;
-  };
-};
+import { initSprings, SelectionFactory } from "../utils";
+import type { Animations, GLTFResult, MatSelection } from "../types";
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>(null!);
@@ -60,47 +30,22 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     mat.transparent = true;
   }
 
-  /* Creates an animation interpolation */
-  const [selectedMat, setSelectedMat] = useState({
-    lambert2: true,
-    lambert1: true,
-    Spartan_Ear_Mat: true,
-    Spartan_Shoulders_Mat: true,
-    Spartan_Helmet_Mat: true,
-    Spartan_Legs_Mat: true,
-    Spartan_Undersuit_Mat: true,
-    Spartan_Arms_Mat: true,
-    Spartan_Chest_Mat: true,
-  });
+  /* Creates a material selection State */
+  const [matSelection, setMatSelection] = useState<MatSelection<boolean>>(
+    new SelectionFactory(true)
+  );
 
+  /* Ties the material selection State to an interpolator of opacities */
   const springs = useSpring({
-    lambert2: selectedMat.lambert2 ? 1 : 0.1,
-    lambert1: selectedMat.lambert1 ? 1 : 0.1,
-    Spartan_Ear_Mat: selectedMat.Spartan_Ear_Mat ? 1 : 0.1,
-    Spartan_Shoulders_Mat: selectedMat.Spartan_Shoulders_Mat ? 1 : 0.1,
-    Spartan_Helmet_Mat: selectedMat.Spartan_Helmet_Mat ? 1 : 0.1,
-    Spartan_Legs_Mat: selectedMat.Spartan_Legs_Mat ? 1 : 0.1,
-    Spartan_Undersuit_Mat: selectedMat.Spartan_Undersuit_Mat ? 1 : 0.1,
-    Spartan_Arms_Mat: selectedMat.Spartan_Arms_Mat ? 1 : 0.1,
-    Spartan_Chest_Mat: selectedMat.Spartan_Chest_Mat ? 1 : 0.1,
-
+    ...initSprings(0.1, 1, matSelection),
     config: { duration: 200 },
   });
 
   useFrame(() => {
-    materials.Spartan_Helmet_Mat.opacity = springs.Spartan_Helmet_Mat.get();
-    materials.Spartan_Chest_Mat.opacity = springs.Spartan_Chest_Mat.get();
-    materials.lambert2.opacity = springs.lambert2.get();
-    materials.lambert1.opacity = springs.lambert1.get();
-    materials.Spartan_Ear_Mat.opacity = springs.Spartan_Ear_Mat.get();
-    materials.Spartan_Shoulders_Mat.opacity =
-      springs.Spartan_Shoulders_Mat.get();
-    materials.Spartan_Helmet_Mat.opacity = springs.Spartan_Helmet_Mat.get();
-    materials.Spartan_Legs_Mat.opacity = springs.Spartan_Legs_Mat.get();
-    materials.Spartan_Undersuit_Mat.opacity =
-      springs.Spartan_Undersuit_Mat.get();
-    materials.Spartan_Arms_Mat.opacity = springs.Spartan_Arms_Mat.get();
-    materials.Spartan_Chest_Mat.opacity = springs.Spartan_Chest_Mat.get();
+    for (let _key in materials) {
+      const key = _key as keyof typeof materials;
+      materials[key].opacity = springs[key].get();
+    }
   });
 
   /**
@@ -112,41 +57,21 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
     if (e.object instanceof THREE.Mesh) {
       matName = e.object.material.name;
+    } else {
+      console.error("You didn't click on a Mesh");
+      return;
     }
 
-    let newMat = {
-      lambert2: false,
-      lambert1: false,
-      Spartan_Ear_Mat: false,
-      Spartan_Shoulders_Mat: false,
-      Spartan_Helmet_Mat: false,
-      Spartan_Legs_Mat: false,
-      Spartan_Undersuit_Mat: false,
-      Spartan_Arms_Mat: false,
-      Spartan_Chest_Mat: false,
-    };
+    const newSelection = new SelectionFactory(false);
+    newSelection.select(matName!);
 
-    newMat[matName!] = true;
-
-    setSelectedMat(newMat);
+    setMatSelection(newSelection);
   }
 
   return (
     <group
       onClick={handleClick}
-      onPointerMissed={() =>
-        setSelectedMat({
-          lambert2: true,
-          lambert1: true,
-          Spartan_Ear_Mat: true,
-          Spartan_Shoulders_Mat: true,
-          Spartan_Helmet_Mat: true,
-          Spartan_Legs_Mat: true,
-          Spartan_Undersuit_Mat: true,
-          Spartan_Arms_Mat: true,
-          Spartan_Chest_Mat: true,
-        })
-      }
+      onPointerMissed={() => setMatSelection(new SelectionFactory(true))}
       ref={group}
       {...props}
       dispose={null}
@@ -163,15 +88,6 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           >
             <group name="Object_2">
               <group name="RootNode">
-                {/* <group name="Floor">
-                  <mesh
-                    name="Floor_lambert2_0"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Floor_lambert2_0.geometry}
-                    material={materials.lambert2}
-                  />
-                </group> */}
                 <group name="group">
                   <group name="Object_7">
                     <primitive object={nodes._rootJoint} />
