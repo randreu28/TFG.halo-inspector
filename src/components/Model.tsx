@@ -7,12 +7,11 @@ title: Spartan Armour MKV - Halo Reach
 */
 
 import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
-import { useSpring } from "@react-spring/web";
-import { initSprings, SelectionFactory } from "../utils";
-import type { Animations, GLTFResult, MatSelection } from "../types";
+import { useSprings } from "@react-spring/web";
+import type { Animations, GLTFResult } from "../types";
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>(null!);
@@ -30,21 +29,20 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     mat.transparent = true;
   }
 
-  /* Creates a material selection State */
-  const [matSelection, setMatSelection] = useState<MatSelection<boolean>>(
-    new SelectionFactory(true)
+  /* Creates a state using springs to interpolate the opacities */
+  const [opacities, setOpacities] = useSprings(
+    Object.keys(materials).length,
+    () => ({
+      opacity: 1,
+    })
   );
 
-  /* Ties the material selection State to an interpolator of opacities */
-  const springs = useSpring({
-    ...initSprings(0.1, 1, matSelection),
-    config: { duration: 200 },
-  });
-
   useFrame(() => {
+    let i = 0;
     for (let _key in materials) {
       const key = _key as keyof typeof materials;
-      materials[key].opacity = springs[key].get();
+      materials[key].opacity = opacities[i].opacity.get();
+      ++i;
     }
   });
 
@@ -62,16 +60,22 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       return;
     }
 
-    const newSelection = new SelectionFactory(false);
-    newSelection.select(matName!);
+    const arrayMats = Object.values(materials);
+    setOpacities((i) => ({
+      opacity: matName === arrayMats[i].name ? 1 : 0.1,
+    }));
+  }
 
-    setMatSelection(newSelection);
+  function handlePointerMissed() {
+    setOpacities(() => ({
+      opacity: 1,
+    }));
   }
 
   return (
     <group
       onClick={handleClick}
-      onPointerMissed={() => setMatSelection(new SelectionFactory(true))}
+      onPointerMissed={handlePointerMissed}
       ref={group}
       {...props}
       dispose={null}
