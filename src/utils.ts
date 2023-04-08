@@ -1,5 +1,7 @@
 import type { MatSelection } from "./types";
-
+/**
+ * A class for easily creating selection objects and changing it's selection
+ */
 export class SelectionFactory implements MatSelection<boolean> {
   lambert2: boolean;
   lambert1: boolean;
@@ -11,6 +13,9 @@ export class SelectionFactory implements MatSelection<boolean> {
   Spartan_Arms_Mat: boolean;
   Spartan_Chest_Mat: boolean;
 
+  /**
+   * @param value The default vale for all attributes
+   */
   constructor(value: boolean) {
     this.lambert2 = value;
     this.lambert1 = value;
