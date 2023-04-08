@@ -59,7 +59,6 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     let mat = materials[_mat as keyof typeof materials];
     mat.transparent = true;
   }
-  materials.lambert2.opacity = 0;
 
   /* Creates an animation interpolation */
   const [selectedMat, setSelectedMat] = useState({
@@ -164,7 +163,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           >
             <group name="Object_2">
               <group name="RootNode">
-                <group name="Floor">
+                {/* <group name="Floor">
                   <mesh
                     name="Floor_lambert2_0"
                     castShadow
@@ -172,7 +171,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
                     geometry={nodes.Floor_lambert2_0.geometry}
                     material={materials.lambert2}
                   />
-                </group>
+                </group> */}
                 <group name="group">
                   <group name="Object_7">
                     <primitive object={nodes._rootJoint} />
