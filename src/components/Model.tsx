@@ -30,7 +30,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   }
 
   /* Creates a state using springs to interpolate the opacities */
-  const [opacities, setOpacities] = useSprings(
+  const [opacities, opacitiesOptions] = useSprings(
     Object.keys(materials).length,
     () => ({
       opacity: 1,
@@ -61,15 +61,18 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     }
 
     const arrayMats = Object.values(materials);
-    setOpacities((i) => ({
+
+    opacitiesOptions.update((i) => ({
       opacity: matName === arrayMats[i].name ? 1 : 0.1,
     }));
+    opacitiesOptions.start();
   }
 
   function handlePointerMissed() {
-    setOpacities(() => ({
+    opacitiesOptions.update(() => ({
       opacity: 1,
     }));
+    opacitiesOptions.start();
   }
 
   return (
