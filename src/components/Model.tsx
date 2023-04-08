@@ -11,8 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { useSpring } from "@react-spring/web";
-import { initSprings, SelectionFactory } from "../utils";
-import type { Animations, GLTFResult, MatSelection } from "../types";
+import type { Animations, GLTFResult } from "../types";
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>(null!);
@@ -31,20 +30,21 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   }
 
   /* Creates a material selection State */
-  const [matSelection, setMatSelection] = useState<MatSelection<boolean>>(
-    new SelectionFactory(true)
-  );
+  const [matSelection, setMatSelection] =
+    useState<keyof GLTFResult["materials"]>();
 
   /* Ties the material selection State to an interpolator of opacities */
-  const springs = useSpring({
-    ...initSprings(0.1, 1, matSelection),
+  const spring = useSpring({
+    selected: matSelection ? 1 : 0.1,
+    notSelected: matSelection ? 0.1 : 1,
     config: { duration: 200 },
   });
 
   useFrame(() => {
     for (let _key in materials) {
       const key = _key as keyof typeof materials;
-      materials[key].opacity = springs[key].get();
+      materials[key].opacity =
+        key == matSelection ? spring.selected.get() : spring.notSelected.get();
     }
   });
 
@@ -62,16 +62,13 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       return;
     }
 
-    const newSelection = new SelectionFactory(false);
-    newSelection.select(matName!);
-
-    setMatSelection(newSelection);
+    setMatSelection(matName);
   }
 
   return (
     <group
       onClick={handleClick}
-      onPointerMissed={() => setMatSelection(new SelectionFactory(true))}
+      onPointerMissed={() => setMatSelection(undefined)}
       ref={group}
       {...props}
       dispose={null}
