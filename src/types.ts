@@ -34,4 +34,4 @@ export type GLTFResult = GLTF & {
   };
 };
 
-export type MatSelection<T> = Record<keyof GLTFResult["materials"], T>;
+export type MatName = keyof GLTFResult["materials"] | undefined;
