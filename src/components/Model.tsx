@@ -11,7 +11,7 @@ import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { useSprings } from "@react-spring/web";
-import type { Animations, GLTFResult } from "../types";
+import type { Animations, GLTFResult, MatName } from "../types";
 import { useSetAtom } from "jotai";
 import { matAtom } from "../store";
 
@@ -43,7 +43,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   useFrame(() => {
     let i = 0;
     for (let _key in materials) {
-      const key = _key as keyof typeof materials;
+      const key = _key as NonNullable<MatName>;
       materials[key].opacity = opacities[i].opacity.get();
       ++i;
     }
@@ -54,7 +54,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
    */
   function handleClick(e: ThreeEvent<MouseEvent>) {
     e.stopPropagation();
-    let matName: keyof typeof materials | undefined;
+    let matName: MatName;
 
     if (e.object instanceof THREE.Mesh) {
       matName = e.object.material.name;
