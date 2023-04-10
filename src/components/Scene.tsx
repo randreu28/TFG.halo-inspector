@@ -9,9 +9,9 @@ export default function Scene() {
       camera={{ position: [-15, 0, 10], fov: 25 }}
       shadows={"soft"}
     >
-      <fog attach="fog" args={["black", 15, 21.5]} />
-      <ambientLight intensity={0.5} />
-      <Environment background preset="warehouse" blur={0.8} />
+      <fog attach="fog" args={["white", 15, 21.5]} />
+      <ambientLight />
+      <Environment background files="/blue.hdr" blur={0.8} />
 
       <OrbitControls
         autoRotate
@@ -29,7 +29,8 @@ export default function Scene() {
         cellThickness={0.6}
         sectionSize={3.3}
         sectionThickness={1.5}
-        sectionColor={"lemonchiffon"}
+        cellColor={"white"}
+        sectionColor={"turquoise"}
         fadeDistance={30}
       />
     </Canvas>

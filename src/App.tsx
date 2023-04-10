@@ -3,6 +3,7 @@ import Scene from "./components/Scene";
 import { useAtomValue } from "jotai";
 import { matAtom } from "./store";
 import { MatName } from "./types";
+import { TextScramble } from "@a7sc11u/scramble";
 
 function getInfo(material: MatName) {
   switch (material) {
@@ -63,9 +64,19 @@ export default function App() {
   return (
     <div className="h-screen w-screen flex justify-center items-center">
       <Suspense fallback={<p className="text-4xl">Loading...</p>}>
-        <div className="absolute left-5 top-5 z-10 max-w-xl space-y-3">
-          <h2 className="text-5xl font-bold text-green-900">{info.title}</h2>
-          <h2 className="text-2xl text-green-700">{info.description}</h2>
+        <div className="absolute left-5 top-5 z-10 max-w-xl space-y-5">
+          <TextScramble
+            className="text-teal-300 text-5xl font-bold"
+            as="h2"
+            speed={1}
+            text={info.title}
+          />
+          <TextScramble
+            className="text-teal-300 text-xl"
+            as="p"
+            speed={1}
+            text={info.description}
+          />
         </div>
         <Scene />
       </Suspense>
