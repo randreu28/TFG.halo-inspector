@@ -12,11 +12,14 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { useSprings } from "@react-spring/web";
 import type { Animations, GLTFResult } from "../types";
+import { useSetAtom } from "jotai";
+import { matAtom } from "../store";
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>(null!);
   const { nodes, materials, animations } = useGLTF("/halo.glb") as GLTFResult;
   const { actions } = useAnimations<Animations>(animations as any, group);
+  const setMat = useSetAtom(matAtom);
 
   /* Plays animation */
   useEffect(() => {
@@ -66,6 +69,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       opacity: matName === arrayMats[i].name ? 1 : 0.1,
     }));
     opacitiesOptions.start();
+    setMat(matName);
   }
 
   function handlePointerMissed() {
@@ -73,6 +77,8 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       opacity: 1,
     }));
     opacitiesOptions.start();
+
+    setMat(undefined);
   }
 
   return (
