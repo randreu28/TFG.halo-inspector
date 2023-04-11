@@ -5,4 +5,5 @@
 html {
   @apply text-white;
   @apply bg-gray-900;
+  @apply font-mono;
 }

@@ -4,6 +4,7 @@ import { useAtomValue } from "jotai";
 import { matAtom } from "./store";
 import { MatName } from "./types";
 import { TextScramble } from "@a7sc11u/scramble";
+import Signature from "./components/Signature";
 
 function getInfo(material: MatName) {
   switch (material) {
@@ -64,20 +65,21 @@ export default function App() {
   return (
     <div className="h-screen w-screen flex justify-center items-center">
       <Suspense fallback={<p className="text-4xl">Loading...</p>}>
-        <div className="absolute left-5 top-5 z-10 max-w-xl space-y-5">
+        <div className="absolute left-10 top-10 z-10 max-w-xl space-y-5">
           <TextScramble
-            className="text-teal-300 text-5xl font-bold"
+            className="text-5xl font-bold"
             as="h2"
             speed={1}
             text={info.title}
           />
           <TextScramble
-            className="text-teal-300 text-xl"
+            className=" text-xl"
             as="p"
             speed={1}
             text={info.description}
           />
         </div>
+        <Signature />
         <Scene />
       </Suspense>
     </div>
