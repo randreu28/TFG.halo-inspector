@@ -4,6 +4,6 @@
 
 html {
   @apply text-white;
-  @apply bg-gray-900;
+  @apply bg-sky-900;
   @apply font-mono;
 }

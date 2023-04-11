@@ -5,6 +5,7 @@ import { matAtom } from "./store";
 import { MatName } from "./types";
 import { TextScramble } from "@a7sc11u/scramble";
 import Signature from "./components/Signature";
+import Loading from "./components/Loading";
 
 function getInfo(material: MatName) {
   switch (material) {
@@ -64,7 +65,7 @@ export default function App() {
 
   return (
     <div className="h-screen w-screen flex justify-center items-center">
-      <Suspense fallback={<p className="text-4xl">Loading...</p>}>
+      <Suspense fallback={<Loading />}>
         <div className="absolute left-10 top-10 z-10 max-w-xl space-y-5">
           <TextScramble
             className="text-5xl font-bold"
