@@ -10,50 +10,50 @@ function getInfo(material: MatName) {
   switch (material) {
     case "Spartan_Arms_Mat":
       return {
-        title: "Spartan bionic arm",
+        title: "Spartan bionic arms",
         description:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis nisi nam illo consectetur! Maxime quae ut accusantium blanditiis ullam deserunt, rerum libero voluptas culpa repellendus earum temporibus repellat neque adipisci.",
+          "A highly resistant material that covers the Spartan's arms and provides a high level of protection against physical impacts. It is made of a layered composite that can withstand extreme temperatures and pressure.",
       };
     case "Spartan_Ear_Mat":
       return {
         title: "Spartan ultra-sensitive ears",
         description:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis nisi nam illo consectetur! Maxime quae ut accusantium blanditiis ullam deserunt, rerum libero voluptas culpa repellendus earum temporibus repellat neque adipisci.",
+          "A tough yet comfortable material designed to protect the Spartan's ears from any possible harm. It is made of a highly resistant polymer that absorbs shock and prevents damage from high-frequency noises.",
       };
     case "Spartan_Chest_Mat":
       return {
         title: "Spartan blinded chest",
         description:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis nisi nam illo consectetur! Maxime quae ut accusantium blanditiis ullam deserunt, rerum libero voluptas culpa repellendus earum temporibus repellat neque adipisci.",
+          "A tough material that covers the Spartan's chest and provides a high level of protection against physical impacts. It is made of a layered composite that can withstand extreme temperatures and pressure.",
       };
     case "Spartan_Helmet_Mat":
       return {
         title: "Spartan inteligent helmet",
         description:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis nisi nam illo consectetur! Maxime quae ut accusantium blanditiis ullam deserunt, rerum libero voluptas culpa repellendus earum temporibus repellat neque adipisci.",
+          "The helmet is the most important part of a Spartan's armor. This material is a lightweight yet highly durable alloy that can withstand heavy blows and ballistic impacts. It also has a built-in oxygen filtration system to protect the Spartan from harmful particles in the air.",
       };
     case "Spartan_Legs_Mat":
       return {
         title: "Spartan blinded legs",
         description:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis nisi nam illo consectetur! Maxime quae ut accusantium blanditiis ullam deserunt, rerum libero voluptas culpa repellendus earum temporibus repellat neque adipisci.",
+          "A highly resistant material designed to protect the Spartan's legs from any possible harm. It is made of a layered composite that can withstand extreme temperatures and pressure.",
       };
     case "Spartan_Shoulders_Mat":
       return {
         title: "Spartan shoulder protectors",
         description:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis nisi nam illo consectetur! Maxime quae ut accusantium blanditiis ullam deserunt, rerum libero voluptas culpa repellendus earum temporibus repellat neque adipisci.",
+          "A durable material that covers the Spartan's shoulders and provides a high level of protection against physical impacts. It is made of a layered composite that can withstand extreme temperatures and pressure.",
       };
     case "Spartan_Undersuit_Mat":
       return {
         title: "Spartan high-quality undersuit",
         description:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis nisi nam illo consectetur! Maxime quae ut accusantium blanditiis ullam deserunt, rerum libero voluptas culpa repellendus earum temporibus repellat neque adipisci.",
+          " A comfortable and breathable material that is worn underneath the Spartan's armor. It is made of a stretchable fabric that provides support and flexibility.",
       };
     default:
       return {
         title: "No material selected",
-        description: "Please, click on any part of the suit",
+        description: "Click on any part of the armor to see more",
       };
   }
 }
@@ -75,7 +75,7 @@ export default function App() {
           <TextScramble
             className=" text-xl"
             as="p"
-            speed={1}
+            speed={5}
             text={info.description}
           />
         </div>
