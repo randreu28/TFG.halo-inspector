@@ -112,55 +112,55 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
                     <group name="Armour" />
                     <group name="Armour_LP" />
                     <skinnedMesh
-                      name="Object_18"
+                      name={materials.lambert1.name}
                       geometry={nodes.Object_18.geometry}
                       material={materials.lambert1}
                       skeleton={nodes.Object_18.skeleton}
                     />
                     <skinnedMesh
-                      name="Object_10"
+                      name={materials.Spartan_Ear_Mat.name}
                       geometry={nodes.Object_10.geometry}
                       material={materials.Spartan_Ear_Mat}
                       skeleton={nodes.Object_10.skeleton}
                     />
                     <skinnedMesh
-                      name="Object_13"
+                      name={materials.Spartan_Ear_Mat.name}
                       geometry={nodes.Object_13.geometry}
                       material={materials.Spartan_Ear_Mat}
                       skeleton={nodes.Object_13.skeleton}
                     />
                     <skinnedMesh
-                      name="Object_17"
+                      name={materials.Spartan_Shoulders_Mat.name}
                       geometry={nodes.Object_17.geometry}
                       material={materials.Spartan_Shoulders_Mat}
                       skeleton={nodes.Object_17.skeleton}
                     />
                     <skinnedMesh
-                      name="Object_12"
+                      name={materials.Spartan_Helmet_Mat.name}
                       geometry={nodes.Object_12.geometry}
                       material={materials.Spartan_Helmet_Mat}
                       skeleton={nodes.Object_12.skeleton}
                     />
                     <skinnedMesh
-                      name="Object_16"
+                      name={materials.Spartan_Legs_Mat.name}
                       geometry={nodes.Object_16.geometry}
                       material={materials.Spartan_Legs_Mat}
                       skeleton={nodes.Object_16.skeleton}
                     />
                     <skinnedMesh
-                      name="Object_20"
+                      name={materials.Spartan_Undersuit_Mat.name}
                       geometry={nodes.Object_20.geometry}
                       material={materials.Spartan_Undersuit_Mat}
                       skeleton={nodes.Object_20.skeleton}
                     />
                     <skinnedMesh
-                      name="Object_15"
+                      name={materials.Spartan_Arms_Mat.name}
                       geometry={nodes.Object_15.geometry}
                       material={materials.Spartan_Arms_Mat}
                       skeleton={nodes.Object_15.skeleton}
                     />
                     <skinnedMesh
-                      name="Object_14"
+                      name={materials.Spartan_Chest_Mat.name}
                       geometry={nodes.Object_14.geometry}
                       material={materials.Spartan_Chest_Mat}
                       skeleton={nodes.Object_14.skeleton}
