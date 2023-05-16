@@ -1,5 +1,6 @@
-import { Environment, OrbitControls, Grid } from "@react-three/drei";
+import { Environment, Grid } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import CustomCamera from "./CustomCamera";
 import { Model } from "./Model";
 
 export default function Scene() {
@@ -13,12 +14,7 @@ export default function Scene() {
       <ambientLight />
       <Environment background files="/blue.hdr" blur={0.8} />
 
-      <OrbitControls
-        autoRotate
-        autoRotateSpeed={0.05}
-        maxDistance={5}
-        minDistance={1}
-      />
+      <CustomCamera />
 
       <Model position={[0, -2, 0]} />
       <Grid
