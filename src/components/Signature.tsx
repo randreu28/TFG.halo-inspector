@@ -1,10 +1,16 @@
 export default function Signature() {
   return (
     <>
-      <p className="absolute top-10 right-10 z-10 text-right">
+      <span className="absolute top-10 right-10 z-10 text-right">
         <p>Bachelor's Thesis</p>
-        <p>Interactive 3D components</p>
-      </p>
+        <a
+          href="https://tfg-docs.vercel.app/"
+          className="hover:underline"
+          target="_blank"
+        >
+          Interactive 3D components
+        </a>
+      </span>
 
       <p className="absolute right-10 bottom-10 z-10 space-y-5">11/04/2023</p>
 
