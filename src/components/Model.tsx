@@ -11,9 +11,9 @@ import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { useSprings } from "@react-spring/web";
-import type { Animations, GLTFResult, MatName } from "../types";
+import type { Animations, GLTFResult, MatName } from "../lib/types";
 import { useSetAtom } from "jotai";
-import { matAtom } from "../store";
+import { matAtom } from "../lib/store";
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>(null!);

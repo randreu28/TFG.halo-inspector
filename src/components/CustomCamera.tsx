@@ -2,7 +2,7 @@ import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useAtomValue } from "jotai";
 import { useRef } from "react";
-import { matAtom } from "../store";
+import { matAtom } from "../lib/store";
 
 export default function CustomCamera() {
   const ref = useRef<CameraControls>(null!);
